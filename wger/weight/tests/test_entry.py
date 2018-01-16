@@ -33,7 +33,9 @@ class MealRepresentationTestCase(WorkoutManagerTestCase):
         '''
         Test that the representation of an object is correct
         '''
-        self.assertEqual("{0}".format(WeightEntry.objects.get(pk=1)), '2012-10-01: 77.00 kg')
+        self.assertEqual(
+            "{0}".format(WeightEntry.objects.get(pk=1)),
+            '2012-10-01: 77.00 kg')
 
 
 class WeightEntryAccessTestCase(WorkoutManagerTestCase):
@@ -86,9 +88,11 @@ class AddWeightEntryTestCase(WorkoutManagerAddTestCase):
     object_class = WeightEntry
     url = 'weight:add'
     user_fail = False
-    data = {'weight': decimal.Decimal(81.1).quantize(TWOPLACES),
-            'date': datetime.date(2013, 2, 1),
-            'user': 1}
+    data = {
+        'weight': decimal.Decimal(81.1).quantize(TWOPLACES),
+        'date': datetime.date(2013, 2, 1),
+        'user': 1
+    }
 
 
 class EditWeightEntryTestCase(WorkoutManagerEditTestCase):
@@ -99,9 +103,7 @@ class EditWeightEntryTestCase(WorkoutManagerEditTestCase):
     object_class = WeightEntry
     url = 'weight:edit'
     pk = 1
-    data = {'weight': 100,
-            'date': datetime.date(2013, 2, 1),
-            'user': 1}
+    data = {'weight': 100, 'date': datetime.date(2013, 2, 1), 'user': 1}
     user_success = 'test'
     user_fail = 'admin'
 
@@ -113,5 +115,4 @@ class WeightEntryTestCase(api_base_test.ApiBaseResourceTestCase):
     pk = 3
     resource = WeightEntry
     private_resource = True
-    data = {'weight': 100,
-            'date': datetime.date(2013, 2, 1)}
+    data = {'weight': 100, 'date': datetime.date(2013, 2, 1)}

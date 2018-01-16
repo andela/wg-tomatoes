@@ -27,21 +27,10 @@ from django.utils.translation import ugettext as _
 
 from wger.config.models import LanguageConfig
 from wger.exercises.api.serializers import (
-    MuscleSerializer,
-    ExerciseSerializer,
-    ExerciseImageSerializer,
-    ExerciseCategorySerializer,
-    EquipmentSerializer,
-    ExerciseCommentSerializer
-)
-from wger.exercises.models import (
-    Exercise,
-    Equipment,
-    ExerciseCategory,
-    ExerciseImage,
-    ExerciseComment,
-    Muscle
-)
+    MuscleSerializer, ExerciseSerializer, ExerciseImageSerializer,
+    ExerciseCategorySerializer, EquipmentSerializer, ExerciseCommentSerializer)
+from wger.exercises.models import (Exercise, Equipment, ExerciseCategory,
+                                   ExerciseImage, ExerciseComment, Muscle)
 from wger.utils.language import load_item_languages, load_language
 from wger.utils.permissions import CreateOnlyPermission
 
@@ -54,17 +43,9 @@ class ExerciseViewSet(viewsets.ModelViewSet):
     serializer_class = ExerciseSerializer
     permission_classes = (IsAuthenticatedOrReadOnly, CreateOnlyPermission)
     ordering_fields = '__all__'
-    filter_fields = ('category',
-                     'creation_date',
-                     'description',
-                     'language',
-                     'muscles',
-                     'muscles_secondary',
-                     'status',
-                     'name',
-                     'equipment',
-                     'license',
-                     'license_author')
+    filter_fields = ('category', 'creation_date', 'description', 'language',
+                     'muscles', 'muscles_secondary', 'status', 'name',
+                     'equipment', 'license', 'license_author')
 
     def perform_create(self, serializer):
         '''
@@ -89,13 +70,13 @@ def search(request):
     json_response = {}
 
     if q:
-        languages = load_item_languages(LanguageConfig.SHOW_ITEM_EXERCISES,
-                                        language_code=request.GET.get('language', None))
+        languages = load_item_languages(
+            LanguageConfig.SHOW_ITEM_EXERCISES,
+            language_code=request.GET.get('language', None))
         exercises = (Exercise.objects.filter(name__icontains=q)
                      .filter(language__in=languages)
-                     .filter(status=Exercise.STATUS_ACCEPTED)
-                     .order_by('category__name', 'name')
-                     .distinct())
+                     .filter(status=Exercise.STATUS_ACCEPTED).order_by(
+                         'category__name', 'name').distinct())
 
         for exercise in exercises:
             if exercise.main_image:
@@ -130,7 +111,7 @@ class EquipmentViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Equipment.objects.all()
     serializer_class = EquipmentSerializer
     ordering_fields = '__all__'
-    filter_fields = ('name',)
+    filter_fields = ('name', )
 
 
 class ExerciseCategoryViewSet(viewsets.ReadOnlyModelViewSet):
@@ -140,7 +121,7 @@ class ExerciseCategoryViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = ExerciseCategory.objects.all()
     serializer_class = ExerciseCategorySerializer
     ordering_fields = '__all__'
-    filter_fields = ('name',)
+    filter_fields = ('name', )
 
 
 class ExerciseImageViewSet(viewsets.ModelViewSet):
@@ -151,10 +132,7 @@ class ExerciseImageViewSet(viewsets.ModelViewSet):
     serializer_class = ExerciseImageSerializer
     permission_classes = (IsAuthenticatedOrReadOnly, CreateOnlyPermission)
     ordering_fields = '__all__'
-    filter_fields = ('is_main',
-                     'status',
-                     'exercise',
-                     'license',
+    filter_fields = ('is_main', 'status', 'exercise', 'license',
                      'license_author')
 
     @detail_route()
@@ -194,8 +172,7 @@ class ExerciseCommentViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = ExerciseComment.objects.all()
     serializer_class = ExerciseCommentSerializer
     ordering_fields = '__all__'
-    filter_fields = ('comment',
-                     'exercise')
+    filter_fields = ('comment', 'exercise')
 
 
 class MuscleViewSet(viewsets.ReadOnlyModelViewSet):
@@ -205,5 +182,4 @@ class MuscleViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Muscle.objects.all()
     serializer_class = MuscleSerializer
     ordering_fields = '__all__'
-    filter_fields = ('name',
-                     'is_front')
+    filter_fields = ('name', 'is_front')

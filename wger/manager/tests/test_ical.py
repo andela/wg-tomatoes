@@ -20,7 +20,6 @@ from django.core.urlresolvers import reverse
 from wger.core.tests.base_testcase import WorkoutManagerTestCase
 from wger.utils.helpers import next_weekday, make_token
 
-
 # TODO: parse the generated calendar files with the icalendar library
 
 
@@ -36,13 +35,16 @@ class IcalToolsTestCase(WorkoutManagerTestCase):
         start_date = datetime.date(2013, 12, 5)
 
         # Find next monday
-        self.assertEqual(next_weekday(start_date, 0), datetime.date(2013, 12, 9))
+        self.assertEqual(
+            next_weekday(start_date, 0), datetime.date(2013, 12, 9))
 
         # Find next wednesday
-        self.assertEqual(next_weekday(start_date, 2), datetime.date(2013, 12, 11))
+        self.assertEqual(
+            next_weekday(start_date, 2), datetime.date(2013, 12, 11))
 
         # Find next saturday
-        self.assertEqual(next_weekday(start_date, 5), datetime.date(2013, 12, 7))
+        self.assertEqual(
+            next_weekday(start_date, 5), datetime.date(2013, 12, 7))
 
 
 class WorkoutICalExportTestCase(WorkoutManagerTestCase):
@@ -57,9 +59,14 @@ class WorkoutICalExportTestCase(WorkoutManagerTestCase):
 
         user = User.objects.get(username='test')
         uid, token = make_token(user)
-        response = self.client.get(reverse('manager:workout:ical', kwargs={'pk': 3,
-                                                                           'uidb64': uid,
-                                                                           'token': token}))
+        response = self.client.get(
+            reverse(
+                'manager:workout:ical',
+                kwargs={
+                    'pk': 3,
+                    'uidb64': uid,
+                    'token': token
+                }))
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response['Content-Type'], 'text/calendar')
@@ -77,9 +84,14 @@ class WorkoutICalExportTestCase(WorkoutManagerTestCase):
 
         uid = 'AB'
         token = 'abc-11223344556677889900'
-        response = self.client.get(reverse('manager:workout:ical', kwargs={'pk': 3,
-                                                                           'uidb64': uid,
-                                                                           'token': token}))
+        response = self.client.get(
+            reverse(
+                'manager:workout:ical',
+                kwargs={
+                    'pk': 3,
+                    'uidb64': uid,
+                    'token': token
+                }))
 
         self.assertEqual(response.status_code, 403)
 
@@ -88,7 +100,10 @@ class WorkoutICalExportTestCase(WorkoutManagerTestCase):
         Helper function
         '''
 
-        response = self.client.get(reverse('manager:workout:ical', kwargs={'pk': 3}))
+        response = self.client.get(
+            reverse('manager:workout:ical', kwargs={
+                'pk': 3
+            }))
 
         if fail:
             self.assertIn(response.status_code, (403, 404, 302))
@@ -144,9 +159,14 @@ class ScheduleICalExportTestCase(WorkoutManagerTestCase):
 
         user = User.objects.get(username='test')
         uid, token = make_token(user)
-        response = self.client.get(reverse('manager:schedule:ical', kwargs={'pk': 2,
-                                                                            'uidb64': uid,
-                                                                            'token': token}))
+        response = self.client.get(
+            reverse(
+                'manager:schedule:ical',
+                kwargs={
+                    'pk': 2,
+                    'uidb64': uid,
+                    'token': token
+                }))
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response['Content-Type'], 'text/calendar')
@@ -164,9 +184,14 @@ class ScheduleICalExportTestCase(WorkoutManagerTestCase):
 
         uid = 'AB'
         token = 'abc-11223344556677889900'
-        response = self.client.get(reverse('manager:schedule:ical', kwargs={'pk': 2,
-                                                                            'uidb64': uid,
-                                                                            'token': token}))
+        response = self.client.get(
+            reverse(
+                'manager:schedule:ical',
+                kwargs={
+                    'pk': 2,
+                    'uidb64': uid,
+                    'token': token
+                }))
 
         self.assertEqual(response.status_code, 403)
 
@@ -175,7 +200,10 @@ class ScheduleICalExportTestCase(WorkoutManagerTestCase):
         Helper function
         '''
 
-        response = self.client.get(reverse('manager:schedule:ical', kwargs={'pk': 2}))
+        response = self.client.get(
+            reverse('manager:schedule:ical', kwargs={
+                'pk': 2
+            }))
 
         if fail:
             self.assertIn(response.status_code, (403, 404, 302))

@@ -30,8 +30,10 @@ class WeightOverviewTestCase(WorkoutManagerTestCase):
         '''
         Helper function to test the weight overview page
         '''
-        response = self.client.get(reverse('weight:overview',
-                                           kwargs={'username': self.current_user}))
+        response = self.client.get(
+            reverse('weight:overview', kwargs={
+                'username': self.current_user
+            }))
         self.assertEqual(response.status_code, 200)
 
     def test_weight_overview_loged_in(self):
