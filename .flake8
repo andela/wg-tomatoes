@@ -1,0 +1,19 @@
+[flake8]
+# a few indicators as to why some errors are ignored:
+# F401 : Some members or properties are assigned at runtime
+# C901 : necessary complexity on selected methods
+# W503,E251 : to maintain readability and overall beauty 
+# F405: for wildcard imports
+
+ignore = F401,E402,C901,W503,E251,E741,F405,E265,F403,F841
+# excluding unnecessary folders and urls files that have 501's for regex's exceeding\
+# line length
+exclude = 
+    .git,
+    __pycache__,
+    migrations,
+    venv-django,
+    urls.py
+
+max-complexity = 10
+max-line-length = 100

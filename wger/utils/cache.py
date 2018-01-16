@@ -18,7 +18,6 @@ import hashlib
 from django.core.cache import cache
 from django.utils.encoding import force_bytes
 
-
 logger = logging.getLogger(__name__)
 
 
@@ -114,5 +113,6 @@ class CacheKeyMapper(object):
         Return the workout canonical representation
         '''
         return self.WORKOUT_LOG_LIST.format(hash_value)
+
 
 cache_mapper = CacheKeyMapper()

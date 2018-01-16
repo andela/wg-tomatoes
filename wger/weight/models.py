@@ -29,12 +29,13 @@ class WeightEntry(models.Model):
     Model for a weight point
     '''
     date = models.DateField(verbose_name=_('Date'))
-    weight = models.DecimalField(verbose_name=_('Weight'),
-                                 max_digits=5,
-                                 decimal_places=2,
-                                 validators=[MinValueValidator(30), MaxValueValidator(600)])
-    user = models.ForeignKey(User,
-                             verbose_name=_('User'))
+    weight = models.DecimalField(
+        verbose_name=_('Weight'),
+        max_digits=5,
+        decimal_places=2,
+        validators=[MinValueValidator(30),
+                    MaxValueValidator(600)])
+    user = models.ForeignKey(User, verbose_name=_('User'))
     '''
     The user the weight entry belongs to.
 
@@ -50,7 +51,9 @@ class WeightEntry(models.Model):
         Metaclass to set some other properties
         '''
         verbose_name = _('Weight entry')
-        ordering = ["date", ]
+        ordering = [
+            "date",
+        ]
         get_latest_by = "date"
         unique_together = ("date", "user")
 
