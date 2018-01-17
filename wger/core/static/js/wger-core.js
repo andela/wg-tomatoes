@@ -697,4 +697,31 @@ $(document).ready(function () {
       '/' + token;
     window.location.href = targetUrl;
   });
+
+  $('#inactive-users').hide()
+  var active = true;
+  $('#change-view-list').click(function(){
+    var activeUsers = $('#active-users');
+    var inactiveUsers = $('#inactive-users');
+
+    if(active){
+      activeUsers.hide();
+      inactiveUsers.show();
+      $(this).text('View Active Members')
+      active = false;
+    }else{
+      activeUsers.show();
+      inactiveUsers.hide();
+      active = true;
+      $(this).text('View Inactive Members')
+    }
+    // if ($('#inactive-users').attr('style') == 'display: none;'){
+    //   $('#active-users').hide();
+    //   $('#inactive-users').show();
+    // }
+    // if($('#active-users').attr('style') == 'display: none;'){
+    //   $('#active-users').show();
+    //   $('#inactive-users').hide();
+    // }
+  })
 });
