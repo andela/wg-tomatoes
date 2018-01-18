@@ -219,6 +219,15 @@ class NutritionPlan(models.Model):
         else:
             return 4
 
+    @property
+    def nutritional_info():
+        # check if there's this cache
+        result = cache.get(cache_mapper.get_nutritional_info(self.pk))
+        # if this cache doesn't exist, load result and save to cache
+        if not result:
+            result = self.get_nutritional_values()
+            cache.set(cache_mapper.get_nutritional_info(self.pk), result)
+        return result
 
 @python_2_unicode_compatible
 class Ingredient(AbstractLicenseModel, models.Model):
