@@ -63,4 +63,3 @@ target/
 wger/core/static/bower_components
 node_modules
 venv-django/
-migrations/
