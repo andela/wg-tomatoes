@@ -13,10 +13,13 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU Affero General Public License
-# along with Workout Manager.  If not, see <http://www.gnu.org/licenses/>.
 
-from wger import get_version
+from django.apps import AppConfig
 
-VERSION = get_version()
 
-default_app_config = 'wger.nutrition.apps.NutritionPlanConfig'
+class NutritionPlanConfig(AppConfig):
+    name = 'wger.nutrition'
+    verbose_name = "NutritionPlan"
+
+    def ready(self):
+        import wger.nutrition.signals

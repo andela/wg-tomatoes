@@ -14,7 +14,7 @@
             <h4 class="list-group-item-heading">{{plan}}</h4>
             <p class="list-group-item-text">
                 {{ plan.creation_date }} –
-                {{ plan.get_nutritional_values.total.energy|floatformat }} {% trans "kcal" %}
+                {{ plan.nutritional_info.total.energy|floatformat }} {% trans "kcal" %}
             </p>
         </a>
     {% empty %}
