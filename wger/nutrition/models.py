@@ -220,8 +220,11 @@ class NutritionPlan(models.Model):
             return 4
 
     @property
-    def nutritional_info():
-        # check if there's this cache
+    def nutritional_info(self):
+        '''
+        Method to retrieve and set cache
+        '''
+        # check if cache exists
         result = cache.get(cache_mapper.get_nutritional_info(self.pk))
         # if this cache doesn't exist, load result and save to cache
         if not result:
