@@ -1,4 +1,4 @@
-.. image:: https://travis-ci.org/andela/wg-tomatoes.svg?branch=develop
+.. image:: https://travis-ci.org/andela/wg-tomatoes.svg?branch=ch-slack-CI-integration-154240675
     :target: https://travis-ci.org/andela/wg-tomatoes
 
 Thank you for downloading wger Workout Manager. wger (ˈvɛɡɐ) is a free, open source web
