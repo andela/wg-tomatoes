@@ -43,7 +43,7 @@ install:
   - if [[ "$DB" = "postgresql" ]]; then pip install psycopg2; fi
 
   # Setup application
-  - if [[ "$DB" = "sqlite" ]]; then invoke create_-settings; fi
+  - if [[ "$DB" = "sqlite" ]]; then invoke create-settings; fi
   - if [[ "$DB" = "postgresql" ]]; then invoke create-settings --database-type postgresql; fi
 
 # Create test databases
