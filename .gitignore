@@ -64,5 +64,4 @@ wger/core/static/bower_components
 node_modules
 
 venv-django/
-
-.vscode/
+/.vscode/
