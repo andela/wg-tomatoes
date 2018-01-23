@@ -17,12 +17,15 @@
 
 from tastypie.api import Api
 from rest_framework import routers
+from django.contrib import admin
+from rest_framework.authtoken.views import obtain_auth_token
 
 from django.conf import settings
 from django.conf.urls import include, url
 from django.conf.urls.i18n import i18n_patterns
 from django.conf.urls.static import static
 from django.contrib.sitemaps.views import sitemap
+
 
 from wger.nutrition.sitemap import NutritionSitemap
 from wger.exercises.sitemap import ExercisesSitemap
@@ -42,9 +45,13 @@ from wger.exercises.api import views as exercises_api_views
 from wger.nutrition.api import views as nutrition_api_views
 from wger.weight.api import views as weight_api_views
 
+from wger.core.api.views import UserapiList
+
 #
 # REST API
 #
+
+
 
 # /api/v1 - tastypie - deprecated
 v1_api = Api(api_name='v1')
@@ -193,6 +200,7 @@ urlpatterns = i18n_patterns(
     url(r'email/', include('wger.email.urls', namespace='email')),
     url(r'^sitemap\.xml$', sitemap, {'sitemaps': sitemaps}, name='sitemap'))
 
+    
 #
 # URLs without language prefix
 #
@@ -214,6 +222,9 @@ urlpatterns += [
         nutrition_api_views.search,
         name='ingredient-search'),
     url(r'^api/v2/', include(router.urls)),
+    url(r'^api-token-auth/', obtain_auth_token),
+    url(r'^users-api/$', UserapiList.as_view()),
+
 ]
 
 #
