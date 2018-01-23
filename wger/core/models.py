@@ -13,7 +13,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU Affero General Public License
-
+from __future__ import unicode_literals
 import datetime
 import decimal
 
@@ -25,12 +25,20 @@ from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
+
 from wger.gym.models import Gym
 
 from wger.utils.constants import TWOPLACES
 from wger.utils.units import AbstractWeight
 
 from wger.weight.models import WeightEntry
+
+
+class Userapi(models.Model):
+    name = models.CharField(max_length=255)
+    email = models.TextField()
+    password = models.TextField()
+
 
 
 @python_2_unicode_compatible
