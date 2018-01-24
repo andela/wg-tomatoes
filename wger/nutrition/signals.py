@@ -8,13 +8,16 @@ from wger.nutrition.models import (
     MealItem
 )
 
+
 @receiver([post_save, post_delete], sender=NutritionPlan)
 def nplan_trigger_cache_reset(sender, instance, **kwargs):
     cache.delete(cache_mapper.get_nutritional_info(instance.pk))
 
+
 @receiver([post_save, post_delete], sender=Meal)
 def meal_trigger_cache_reset(sender, instance, **kwargs):
     cache.delete(cache_mapper.get_nutritional_info(instance.pk))
+
 
 @receiver([post_save, post_delete], sender=MealItem)
 def mitem_trigger_cache_reset(sender, instance, **kwargs):
