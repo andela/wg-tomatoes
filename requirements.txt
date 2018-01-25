@@ -11,6 +11,7 @@ django-formtools>=1.0,<1.1
 bleach
 python-mimeparse
 pillow
+psycopg2
 easy-thumbnails
 django_compressor
 icalendar
