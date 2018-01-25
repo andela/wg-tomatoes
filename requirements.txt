@@ -20,6 +20,7 @@ django-bower
 invoke
 requests
 whitenoise==3.3.1
+gunicorn==19.7.1
 
 
 # REST API
