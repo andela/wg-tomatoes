@@ -39,6 +39,11 @@ class MuscleListView(ListView):
     context_object_name = 'muscle_list'
     template_name = 'muscles/overview.html'
 
+    def get_queryset(self):
+        if self.template_name == 'muscles/overview.html':
+            return Muscle.objects.all().order_by('-is_front', 'name'),
+        return Muscle.objects.all().order_by('-is_front', 'name')
+
     def get_context_data(self, **kwargs):
         '''
         Send some additional data to the template

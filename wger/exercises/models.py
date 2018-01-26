@@ -76,6 +76,29 @@ class Muscle(models.Model):
         '''
         return False
 
+    def delete(self, *args, **kwargs):
+        """ Over rides the delete method of the muscle """
+
+        # reset the template cache
+        for language in Language.objects.all():
+            delete_template_fragment_cache('muscle-overview', language.id)
+            delete_template_fragment_cache('exercise-overview', language.id)
+            delete_template_fragment_cache('exercise-overview-mobile',language.id)
+            delete_template_fragment_cache('equipment-overview', language.id)
+            
+        
+        # get all exercises that train the muscle
+        exercizes = Exercise.objects.filter(muscles=self).iterator()
+
+        # delete exercises from the cache
+        for exercise in exercizes:
+            cache.delete(cache_mapper.get_exercise_muscle_bg_key(exercise.pk))
+            for each_set in exercise.set_set.all():
+                reset_workout_canonical_form(each_set.exerciseday.training.pk)
+        
+        super(Muscle, self).delete(*args, **kwargs)
+
+
 
 @python_2_unicode_compatible
 class Equipment(models.Model):
