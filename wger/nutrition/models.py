@@ -232,6 +232,7 @@ class NutritionPlan(models.Model):
             cache.set(cache_mapper.get_nutritional_info(self.pk), result)
         return result
 
+
 @python_2_unicode_compatible
 class Ingredient(AbstractLicenseModel, models.Model):
     '''
