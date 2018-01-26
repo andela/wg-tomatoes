@@ -15,7 +15,6 @@
 # You should have received a copy of the GNU Affero General Public License
 
 import logging
-
 from django.conf import settings
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
