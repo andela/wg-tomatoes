@@ -126,6 +126,11 @@ router.register(
     core_api_views.WeightUnitViewSet,
     base_name='setting-weight-unit')
 
+router.register(
+    r'users',
+    core_api_views.UserapiList,
+    base_name='users')
+
 # Exercises app
 router.register(
     r'exercise', exercises_api_views.ExerciseViewSet, base_name='exercise')
@@ -223,7 +228,7 @@ urlpatterns += [
         name='ingredient-search'),
     url(r'^api/v2/', include(router.urls)),
     url(r'^api-token-auth/', obtain_auth_token),
-    url(r'^users-api/$', UserapiList.as_view()),
+   
 
 ]
 

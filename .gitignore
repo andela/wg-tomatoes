@@ -52,6 +52,7 @@ settings*.py
 
 # Sphinx documentation
 docs/_build/
+/migrations/
 
 # PyBuilder
 target/
@@ -65,3 +66,5 @@ node_modules
 
 venv-django/
 /.vscode/
+.DS_Store
+settings.py

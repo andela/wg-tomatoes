@@ -23,37 +23,45 @@ from rest_framework.decorators import detail_route
 from rest_framework import status
 
 
-from wger.core.models import (Userapi,UserProfile, Language, DaysOfWeek, License,
+from wger.core.models import (Userapi, UserProfile, Language, DaysOfWeek, License,
                               RepetitionUnit, WeightUnit)
 from wger.core.api.serializers import (
-    UsernameSerializer, LanguageSerializer, DaysOfWeekSerializer,UserSerializer,
+   UserapiSerializer, UsernameSerializer, LanguageSerializer, DaysOfWeekSerializer,UserSerializer,
     LicenseSerializer, RepetitionUnitSerializer, WeightUnitSerializer)
 from wger.core.api.serializers import UserprofileSerializer,UserapiSerializer
-from wger.utils.permissions import UpdateOnlyPermission, WgerPermission,IsAdminOrReadOnly
+from wger.utils.permissions import UpdateOnlyPermission, WgerPermission,Add_User_Via_Api
 
 
-class UserapiList(generics.ListCreateAPIView):
-    queryset = Userapi.objects.all()
+class UserapiList(viewsets.ModelViewSet):
+    queryset = User.objects.all()
     serializer_class = UserapiSerializer
-    permission_classes = (IsAdminOrReadOnly, )
-
-    def post(self, request, format=None):
-	    serializer = UserapiSerializer(data=request.data)
-	    if serializer.is_valid():
-	        serializer.save()
-	        return Response(serializer.data, status=status.HTTP_201_CREATED)
-	    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-
-class UserView(viewsets.ModelViewSet):
-    serializer_class = UserSerializer
-    model = User
+    permission_classes = (Add_User_Via_Api,)
+    
  
-    def get_permissions(self):
-        # allow non-authenticated user to create via POST
-        return (AllowAny() if self.request.method == 'POST'
-                else IsStaffOrTargetUser()),
+    def post(self, request, format=None):
+        serializer = UserapiSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def get_serializer_context(self):
+        cxt = super(UserapiList,self).get_serializer_context()
+        cxt["request"] = self.request
+        return cxt
+
+
+
+
+
+
+# class UserView(viewsets.ModelViewSet):
+#     serializer_class = UserSerializer
+#     model = User
+ 
+#     def get_permissions(self):
+#         # allow non-authenticated user to create via POST
+#         return (AllowAny() if self.request.method == 'POST'
+#                 else IsStaffOrTargetUser()),
 
 class UserProfileViewSet(viewsets.ModelViewSet):
     '''
