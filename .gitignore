@@ -64,7 +64,4 @@ wger/core/static/bower_components
 node_modules
 
 venv-django/
-/.vscode/
-
-yarn.lock
-migrations/
+.vscode/

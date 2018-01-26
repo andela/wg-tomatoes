@@ -1,0 +1,11 @@
+{% extends "base_wide.html" %}
+{% load i18n staticfiles wger_extras %}
+{% block title %}{% trans "Sync wger to fitbit" %}{% endblock %}
+{% block content %}
+    <p class="text-info">To retrieve your Fitbit weight data into Wger click the button below.</p>
+    <br>
+    <a class="btn btn-success btn-snall" href="{{ fitbit_auth_link }}">
+        
+        Grant WGER access to your Fitbit data
+    </a>
+{% endblock %}

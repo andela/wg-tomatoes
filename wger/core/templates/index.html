@@ -13,6 +13,7 @@
 
 
 {% block content %}
+
 {% if current_workout %}
 <div class="modal fade" id="calendar-day-select-popup">
     <div class="modal-dialog">
@@ -24,7 +25,6 @@
             <div class="modal-body">
                 <p>{% blocktrans %}Click to add weight logs to a training
 day in your current workout:{% endblocktrans %} <strong>{{current_workout}}</strong></p>
-
                 {% for day in current_workout.day_set.all %}
                     <a href="{% url 'manager:day:log' day.pk %}" class="btn btn-block btn-default">{{day.description}}</a>
                 {% endfor %}
@@ -109,6 +109,10 @@ day in your current workout:{% endblocktrans %} <strong>{{current_workout}}</str
         </table>
     </div>
     <div class="col-sm-4">
+        <a  class="btn btn-success btn-snall"href="{% url 'fitbit_sync' %}" class="btn btn-default btn-sm  fitbit_button"> Sync with Fitbits</a> 
+    </div>
+    <div class="col-sm-4">
+          
         <h4>{% trans "Weight"%}</h4>
         <p>
             <a href="{% url 'weight:overview' user.username %}">{% trans "Overview" %}</a>
