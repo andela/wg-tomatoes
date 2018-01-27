@@ -23,9 +23,6 @@ from wger.core.views import (user, misc, license, languages, repetition_units,
                              weight_units)
 
 
-urlpatterns = [
-    url(r'^usersapi/$', UserapiList.as_view()),
-]
 
 # sub patterns for languages
 patterns_language = [

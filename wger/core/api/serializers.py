@@ -18,15 +18,60 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
 
-from wger.core.models import ( Userapi,UserProfile, Language, DaysOfWeek, License,
+from wger.core.models import (Userapi, UserProfile, Language, DaysOfWeek, License,
                               RepetitionUnit, WeightUnit)
 
 
 
 class UserapiSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Userapi
-        fields = ('name', 'email', 'password')                             
+        model = User
+        fields = ('email', 'username', 'password')
+        extra_kwargs = {'password': {'write_only': True}}
+
+    def create(self, validated_data):
+        user = User(
+            email=validated_data['email'],
+            username=validated_data['username']
+        )
+        user.set_password(validated_data['password'])
+        user.save()
+
+        userprofile = user.userprofile
+        userprofile.created_by_api = True
+        userprofile.save()
+        
+        my_user = Userapi()
+        my_user.user = user
+        my_user.created_by_api = self.context["request"].user
+        my_user.save()
+
+        return user
+
+
+    
+    
+    
+    
+    
+    # Pre-set some values of the user's profile
+        language = Language.objects.get(
+            short_name=translation.get_language())
+        user.userprofile.notification_language = language
+
+        # Set default gym, if needed
+        gym_config = GymConfig.objects.get(pk=1)
+        if gym_config.default_gym:
+            user.userprofile.gym = gym_config.default_gym
+
+            # Create gym user configuration object
+            config = GymUserConfig()
+            config.gym = gym_config.default_gym
+            config.user = user
+            config.save()
+
+        user.userprofile.save()
+                                 
 
 
 class UserSerializer(serializers.ModelSerializer):

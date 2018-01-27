@@ -95,9 +95,9 @@ class IsStaffOrTargetUser(permissions.BasePermission):
 
 
 
-class IsAdminOrReadOnly(BasePermission):
+class Add_User_Via_Api(permissions.BasePermission):
+
+    message="You dont have have that permision"
     def has_permission(self, request, view):
-        if request.method in SAFE_METHODS:
-            return True
-        else:
-            return request.user.is_staff
+        return request.user.is_authenticated() and request.user.userprofile.can_create_via_api
+       
