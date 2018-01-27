@@ -66,11 +66,8 @@ node_modules
 
 venv-django/
 /.vscode/
-<<<<<<< HEAD
 
 yarn.lock
 migrations/
-=======
 .DS_Store
 settings.py
->>>>>>> [ft-154240679] Add permissoins to creating users via api
