@@ -50,6 +50,19 @@ class UserapiList(viewsets.ModelViewSet):
         return cxt
 
 
+
+
+
+
+# class UserView(viewsets.ModelViewSet):
+#     serializer_class = UserSerializer
+#     model = User
+ 
+#     def get_permissions(self):
+#         # allow non-authenticated user to create via POST
+#         return (AllowAny() if self.request.method == 'POST'
+#                 else IsStaffOrTargetUser()),
+
 class UserProfileViewSet(viewsets.ModelViewSet):
     '''
     API endpoint for workout objects
