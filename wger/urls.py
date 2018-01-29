@@ -45,13 +45,11 @@ from wger.exercises.api import views as exercises_api_views
 from wger.nutrition.api import views as nutrition_api_views
 from wger.weight.api import views as weight_api_views
 
-from wger.core.api.views import UserapiList
+from wger.core.views.user import fitbit_sync
 
 #
 # REST API
 #
-
-
 
 # /api/v1 - tastypie - deprecated
 v1_api = Api(api_name='v1')
@@ -203,7 +201,8 @@ urlpatterns = i18n_patterns(
         include('wger.config.urls', namespace='config', app_name='config')),
     url(r'gym/', include('wger.gym.urls', namespace='gym', app_name='gym')),
     url(r'email/', include('wger.email.urls', namespace='email')),
-    url(r'^sitemap\.xml$', sitemap, {'sitemaps': sitemaps}, name='sitemap'))
+    url(r'^sitemap\.xml$', sitemap, {'sitemaps': sitemaps}, name='sitemap'),
+    url(r'fitbit/', fitbit_sync, name='fitbit_sync'))
 
     
 #
