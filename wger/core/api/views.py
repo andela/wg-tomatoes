@@ -16,18 +16,52 @@
 # along with Workout Manager.  If not, see <http://www.gnu.org/licenses/>.
 
 from django.contrib.auth.models import User
-from rest_framework import viewsets
+from django.http import HttpResponse
+from rest_framework import viewsets, generics
 from rest_framework.response import Response
 from rest_framework.decorators import detail_route
+from rest_framework import status
 
-from wger.core.models import (UserProfile, Language, DaysOfWeek, License,
+
+from wger.core.models import (Userapi, UserProfile, Language, DaysOfWeek, License,
                               RepetitionUnit, WeightUnit)
 from wger.core.api.serializers import (
-    UsernameSerializer, LanguageSerializer, DaysOfWeekSerializer,
+   UserapiSerializer, UsernameSerializer, LanguageSerializer, DaysOfWeekSerializer,UserSerializer,
     LicenseSerializer, RepetitionUnitSerializer, WeightUnitSerializer)
-from wger.core.api.serializers import UserprofileSerializer
-from wger.utils.permissions import UpdateOnlyPermission, WgerPermission
+from wger.core.api.serializers import UserprofileSerializer,UserapiSerializer
+from wger.utils.permissions import UpdateOnlyPermission, WgerPermission,Add_User_Via_Api
 
+
+class UserapiList(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserapiSerializer
+    permission_classes = (Add_User_Via_Api,)
+    
+ 
+    def post(self, request, format=None):
+        serializer = UserapiSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def get_serializer_context(self):
+        cxt = super(UserapiList,self).get_serializer_context()
+        cxt["request"] = self.request
+        return cxt
+
+
+
+
+
+
+# class UserView(viewsets.ModelViewSet):
+#     serializer_class = UserSerializer
+#     model = User
+ 
+#     def get_permissions(self):
+#         # allow non-authenticated user to create via POST
+#         return (AllowAny() if self.request.method == 'POST'
+#                 else IsStaffOrTargetUser()),
 
 class UserProfileViewSet(viewsets.ModelViewSet):
     '''
@@ -37,6 +71,7 @@ class UserProfileViewSet(viewsets.ModelViewSet):
     serializer_class = UserprofileSerializer
     permission_classes = (WgerPermission, UpdateOnlyPermission)
     ordering_fields = '__all__'
+   
 
     def get_queryset(self):
         '''
