@@ -5,11 +5,13 @@
 Django>=1.9,<1.10
 django-recaptcha
 reportlab
+dj-database-url==0.3.0
 django_mobile
 django-formtools>=1.0,<1.1
 bleach
 python-mimeparse
 pillow
+psycopg2
 easy-thumbnails
 django_compressor
 icalendar
@@ -19,6 +21,9 @@ django-sortedm2m
 django-bower
 invoke
 requests
+whitenoise==3.3.1
+gunicorn==19.7.1
+
 
 # REST API
 djangorestframework>=3.2,<3.3

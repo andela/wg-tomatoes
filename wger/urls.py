@@ -17,12 +17,15 @@
 
 from tastypie.api import Api
 from rest_framework import routers
+from django.contrib import admin
+from rest_framework.authtoken.views import obtain_auth_token
 
 from django.conf import settings
 from django.conf.urls import include, url
 from django.conf.urls.i18n import i18n_patterns
 from django.conf.urls.static import static
 from django.contrib.sitemaps.views import sitemap
+
 
 from wger.nutrition.sitemap import NutritionSitemap
 from wger.exercises.sitemap import ExercisesSitemap
@@ -43,6 +46,7 @@ from wger.nutrition.api import views as nutrition_api_views
 from wger.weight.api import views as weight_api_views
 
 from wger.core.views.user import fitbit_sync
+
 #
 # REST API
 #
@@ -120,6 +124,11 @@ router.register(
     core_api_views.WeightUnitViewSet,
     base_name='setting-weight-unit')
 
+router.register(
+    r'users',
+    core_api_views.UserapiList,
+    base_name='users')
+
 # Exercises app
 router.register(
     r'exercise', exercises_api_views.ExerciseViewSet, base_name='exercise')
@@ -195,6 +204,7 @@ urlpatterns = i18n_patterns(
     url(r'^sitemap\.xml$', sitemap, {'sitemaps': sitemaps}, name='sitemap'),
     url(r'fitbit/', fitbit_sync, name='fitbit_sync'))
 
+    
 #
 # URLs without language prefix
 #
@@ -216,6 +226,9 @@ urlpatterns += [
         nutrition_api_views.search,
         name='ingredient-search'),
     url(r'^api/v2/', include(router.urls)),
+    url(r'^api-token-auth/', obtain_auth_token),
+   
+
 ]
 
 #

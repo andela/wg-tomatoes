@@ -18,9 +18,11 @@ from django.conf.urls import (patterns, url, include)
 from django.views.generic import TemplateView
 from django.contrib.auth import views
 from django.core.urlresolvers import reverse_lazy
-
+from wger.core.api.views import UserapiList
 from wger.core.views import (user, misc, license, languages, repetition_units,
                              weight_units)
+
+
 
 # sub patterns for languages
 patterns_language = [

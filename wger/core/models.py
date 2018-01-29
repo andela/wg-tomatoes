@@ -13,7 +13,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU Affero General Public License
-
+from __future__ import unicode_literals
 import datetime
 import decimal
 
@@ -25,6 +25,7 @@ from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
+
 from wger.gym.models import Gym
 
 from wger.utils.constants import TWOPLACES
@@ -32,6 +33,15 @@ from wger.utils.units import AbstractWeight
 
 from wger.weight.models import WeightEntry
 
+
+class Userapi(models.Model):
+    user = models.OneToOneField(User,max_length=225, verbose_name="apiuser")
+    created_by_api = models.ForeignKey(User, related_name="user_api", max_length=225)
+
+    def __str__(self):
+        return self.user.username
+        
+    
 
 @python_2_unicode_compatible
 class Language(models.Model):
@@ -82,6 +92,7 @@ class Language(models.Model):
 
 @python_2_unicode_compatible
 class UserProfile(models.Model):
+
     GENDER_MALE = '1'
     GENDER_FEMALE = '2'
     GENDER = (
@@ -114,9 +125,21 @@ class UserProfile(models.Model):
     '''
 
     is_temporary = models.BooleanField(default=False, editable=False)
+
+
+    created_by_api = models.BooleanField(default=False, editable=False)
+
+    can_create_via_api = models.BooleanField(default=False, editable=False)
+    
+    
     '''
     Flag to mark a temporary user (demo account)
     '''
+
+    '''
+    Flag to mark a a user created from the API
+    '''
+    
 
     #
     # User preferences

@@ -16,6 +16,7 @@
 # along with Workout Manager.  If not, see <http://www.gnu.org/licenses/>.
 
 from rest_framework import permissions
+from rest_framework.permissions import BasePermission, SAFE_METHODS
 
 
 class WgerPermission(permissions.BasePermission):
@@ -81,3 +82,22 @@ class UpdateOnlyPermission(permissions.BasePermission):
     def has_permission(self, request, view):
         return (request.user and request.user.is_authenticated()
                 and request.method in ['GET', 'HEAD', 'OPTIONS', 'PATCH'])
+
+
+class IsStaffOrTargetUser(permissions.BasePermission):
+    def has_permission(self, request, view):
+        # allow user to list all users if logged in user is staff
+        return view.action == 'retrieve' or request.user.is_staff
+ 
+    def has_object_permission(self, request, view, obj):
+        # allow logged in user to view own details, allows staff to view all records
+        return request.user.is_staff or obj == request.user
+
+
+
+class Add_User_Via_Api(permissions.BasePermission):
+
+    message="You dont have have that permision"
+    def has_permission(self, request, view):
+        return request.user.is_authenticated() and request.user.userprofile.can_create_via_api
+       
