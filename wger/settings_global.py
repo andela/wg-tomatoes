@@ -103,6 +103,9 @@ BOWER_INSTALLED_APPS = (
 )
 
 MIDDLEWARE_CLASSES = (
+# Simplified static file serving.
+    # https://warehouse.python.org/project/whitenoise/
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
