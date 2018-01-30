@@ -67,3 +67,4 @@ venv-django/
 /.vscode/
 .DS_Store
 settings.py
+yarn.lock
