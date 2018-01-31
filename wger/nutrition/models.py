@@ -640,6 +640,20 @@ class MealItem(models.Model):
         blank=True,
     )
 
+    Meal_Planned = 'PM'
+    Meal_Consumed = 'CM'
+
+    MealChoice =(
+        (Meal_Planned, 'Meal Planned'),
+        (Meal_Consumed, 'Consumed Meal'),
+    )
+
+    meal_choice = models.CharField(
+        max_length = 2,
+        choices = MealChoice,
+        default = Meal_Planned
+    )
+    #planned_meal= models.BooleanField(default=False, editable=False)
     order = models.IntegerField(
         verbose_name=_('Order'), blank=True, editable=False)
     amount = models.DecimalField(
