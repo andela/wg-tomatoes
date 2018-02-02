@@ -9,6 +9,7 @@ dj-database-url==0.3.0
 django_mobile
 django-formtools>=1.0,<1.1
 bleach
+fitbit
 python-mimeparse
 pillow
 psycopg2
