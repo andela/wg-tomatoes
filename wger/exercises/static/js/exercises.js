@@ -28,6 +28,9 @@ function wgerHighlightMuscle(element) {
   var muscleId;
   var isFront;
   var divId;
+  var urlPart1 = 'url(/static/images/muscles/main/muscle-';
+  var urlPart2 = '.svg),url(/static/images/muscles/muscular_system_';
+
   divId = $(element).data('target');
   isFront = ($(element).data('isFront') === 'True')
     ? 'front'
@@ -44,7 +47,7 @@ function wgerHighlightMuscle(element) {
   $(element).addClass('muscle-active');
 
   // Set the corresponding background
-  $('#muscle-system').css('background-image', 'url(/static/images/muscles/main/muscle-' + muscleId + '.svg),url(/static/images/muscles/muscular_system_' + isFront + '.svg)');
+  $('#muscle-system').css('background-image', urlPart1 + muscleId + urlPart2 + isFront + '.svg)');
 
   // Show the corresponding exercises
   $('.exercise-list').hide();
@@ -103,62 +106,9 @@ function wgerDrawWeightLogChart(data, divId) {
 }
 
 /**
- * @param {array} data User data to use when drawing bar graph
- * @param {array} otherUserData Other user data to use during comparison
- * @param {string} divId Id of the html element to use when drawing the draph
- * @param {string} otherUser The username of the other user
- */
-function wgerDrawBarGraph(data, otherUserData, divId, otherUser) {
-  //get the element defined by this div
-  var context = document.getElementById('svg-' + divId);
-
-  //grab logged in user data
-  var listOfChartData = [];
-  var chartData = getChartData(data);
-  listOfChartData.push(chartData);
-
-  // check if user data of the other user is included
-  if (otherUserData) {
-    var otherUserBarGraphData = [];
-    var otherChartData = getChartData(otherUserData);
-    otherUserBarGraphData.push(otherChartData);
-
-    //generate data for both users to draw the bar graph
-    data = {
-      labels: listOfChartData[0]
-        .dates
-        .slice(0, 6),
-      datasets: [
-        getSingleDataset("My weights",'#76ff03','#64dd17', listOfChartData, "weight"), 
-        getSingleDataset("My reps",'#b2ff59','#76ff03', listOfChartData, "reps"),
-        getSingleDataset(otherUser + "'s weights",'#ff9100','#ff6d00', otherUserBarGraphData, "weight"),
-        getSingleDataset(otherUser + "'s reps",'#ffab40','#ff9100', otherUserBarGraphData, "reps"),
-      ]
-    };
-
-    //draw the bar graph
-    drawBarGraph(context, data);
-  } else {
-    //get userdata to draw the bar graph
-    data = {
-      labels: listOfChartData[0]
-        .dates
-        .slice(0, 6),
-      datasets: [
-        getSingleDataset("My weights",'#76ff03','#64dd17', listOfChartData,'weight')
-        ,
-        getSingleDataset("My reps", "#b2ff59", "#76ff03",listOfChartData,"reps"),
-      ]
-    }
-    //draw the bar graph
-    drawBarGraph(context, data);
-  }
-}
-
-/**
  * Uses Charts.js to draw a bar graph
  * @param {element} context The html canvas to update
- * @param {data} data The data to use when plotting the bar graph 
+ * @param {data} data The data to use when plotting the bar graph
  */
 function drawBarGraph(context, data) {
   var wgerBarGraph = new Chart(context, {
@@ -179,10 +129,10 @@ function getChartData(data) {
     reps: []
   };
 
-  data.forEach(function(element){
+  data.forEach(function (element) {
     element
       .slice(0, 6)
-      .forEach(function(item){
+      .forEach(function (item) {
         newUserData
           .dates
           .push(item.date);
@@ -204,7 +154,7 @@ function getChartData(data) {
  * @param {string} bgColor The color of the bar
  * @param {string} borderColor The outline of the bar graph
  * @param {array} data Array containing data to use when plotting
- * @param {*} type The type of data to generate. Can be 'reps' or 'weight'
+ * @param {string} type The type of data to generate. Can be 'reps' or 'weight'
  */
 function getSingleDataset(label, bgColor, borderColor, data, type) {
   return {
@@ -218,5 +168,59 @@ function getSingleDataset(label, bgColor, borderColor, data, type) {
       : data[0]
         .reps
         .slice(0, 6)
+  }
+}
+
+/**
+ * @param {array} data User data to use when drawing bar graph
+ * @param {array} otherUserData Other user data to use during comparison
+ * @param {string} divId Id of the html element to use when drawing the draph
+ * @param {string} otherUser The username of the other user
+ */
+function wgerDrawBarGraph(data, otherUserData, divId, otherUser) {
+  //get the element defined by this div
+  var context = document.getElementById('svg-' + divId);
+
+  //grab logged in user data
+  var listOfChartData = [];
+  var chartData = getChartData(data);
+  var otherUserBarGraphData;
+  var otherChartData;
+  listOfChartData.push(chartData);
+
+  // check if user data of the other user is included
+  if (otherUserData) {
+    otherUserBarGraphData = [];
+    otherChartData = getChartData(otherUserData);
+    otherUserBarGraphData.push(otherChartData);
+
+    //generate data for both users to draw the bar graph
+    data = {
+      labels: listOfChartData[0]
+        .dates
+        .slice(0, 6),
+      datasets: [
+        getSingleDataset("My weights", '#76ff03', '#64dd17', listOfChartData, "weight"),
+        getSingleDataset("My reps", '#b2ff59', '#76ff03', listOfChartData, "reps"),
+        getSingleDataset(otherUser + "'s weights", '#ff9100', '#ff6d00', otherUserBarGraphData, "weight"),
+        getSingleDataset(otherUser + "'s reps", '#ffab40', '#ff9100', otherUserBarGraphData, "reps")
+      ]
+    };
+
+    //draw the bar graph
+    drawBarGraph(context, data);
+  } else {
+    //get userdata to draw the bar graph
+    data = {
+      labels: listOfChartData[0]
+        .dates
+        .slice(0, 6),
+      datasets: [
+        getSingleDataset("My weights", '#76ff03', '#64dd17', listOfChartData, 'weight'),
+        getSingleDataset("My reps", "#b2ff59", "#76ff03", listOfChartData, "reps")
+      ]
+    }
+    //draw the bar graph
+    drawBarGraph(context, data);
   }
 }

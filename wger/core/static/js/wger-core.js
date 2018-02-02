@@ -700,7 +700,6 @@ $(document).ready(function () {
   });
 
   $('#inactive-users').hide();
-  
   $('#change-view-list').click(function () {
     var activeUsers = $('#active-users');
     var inactiveUsers = $('#inactive-users');
