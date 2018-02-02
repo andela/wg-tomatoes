@@ -19,7 +19,9 @@ $(document).ready(function() {
 
 
 
+
 {% block content %}
+
 <form action="{{ form_action }}"
       method="post"
       class="form-horizontal">
@@ -41,8 +43,12 @@ $(document).ready(function() {
             <div id="exercise_name"></div>
         </div>
     </div>
+    
     {% render_form_field form.amount %}
     {% render_form_field form.weight_unit %}
+    
+    {% render_form_field form.meal_choice %}
     {% render_form_submit submit_text %}
 </form>
+{% render_form_field form.meal_choice %}
 {% endblock %}
