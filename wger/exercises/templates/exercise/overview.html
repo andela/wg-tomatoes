@@ -14,8 +14,17 @@
 
 {% block header %}
 <script>
+ 
 $(document).ready(function() {
-
+    $('#choose-English').on('click', function(){
+        $('#en').toggle();
+        $('#all').hide();
+     
+    })
+    $('#choose-Germany').on('click', function(){
+        $('#de').toggle();
+        $('#all').hide();
+    })
     // Init the autocompleter
     $('#exercise-search').autocomplete({
         serviceUrl: '{% url 'exercise-search' %}',
@@ -30,6 +39,7 @@ $(document).ready(function() {
     });
 });
 </script>
+
 {% endblock %}
 
 
@@ -44,19 +54,85 @@ $(document).ready(function() {
     {% for item in exercise_list %}
     <li {% if forloop.first %}class="active"{% endif %}>
         <a href="#tab-{{ item.grouper.id }}" id="category-{{ item.grouper.id }}" data-toggle="tab">{% trans item.grouper.name %}</a>
+         
     </li>
     {% empty %}
         <li>{% trans "No categories." %} {% trans "Use link to create one" %}</li>
     {% endfor %}
 </ul>
+<div class="tab-content" id ='all'>
+        
+            {% for item in exercise_list %}
+            
+            <div class="tab-pane {% if forloop.first %}active{% endif %}" id="tab-{{ item.grouper.id }}">
+                <div class="list-group">
+                   
+                {% for exercise in item.list|dictsort:"name" %}
+                
+               
+                    <a href="{{ exercise.get_absolute_url }}" class="list-group-item">
+                        <div class="visible-xs">
+                                
+                            <span class="glyphicon glyphicon-chevron-right pull-right"></span>
+                        </div>
+                        <div class="media">
+                            <div style="width:60px;height:60px;" class="media-left">
+        
+                            {% if exercise.main_image %}
+                                <img alt="{{ exercise.name }}"
+                                 class="media-object "
+                                 style="max-width:100%; max-height:100%;"
+                                 src="{{ exercise.main_image.image|thumbnail_url:'thumbnail' }}">
+                            {% else %}
+                            <img alt="{% trans 'Placeholder image for exercise' %}"
+                                 class="media-object "
+                                 style="max-width:100%; max-height:100%; opacity: 0.4;"
+                                 src="{% static 'images/icons/image-placeholder.svg' %}">
+                            {% endif %}
+                            </div>
+                           
+                                <div class="media-body" style="position: absolute; top: 10px; left: 100px;" >
+                                    <h4 class="media-heading">{{ exercise.name }}</h4>
+                                   
+                                
+                                    <span class="text-muted">
+                                        {% for equipment in exercise.equipment.all %}
+                                            {% trans equipment.name %}
+                                            {% if not forloop.last %},{% endif %}
+                                        {% endfor %}
+                                    </span>
+                             
+                             </div>
+                        </div>
+                    </a>
+                
+                {% empty %}
+                    <a href="#" class="list-group-item">
+                        <div class="col-md-offset-1 col-md-10" >
+                            {% trans "No exercises in this category. Add or edit an exercise and set its category" %}
+                        </div>
+                    </a>
+                    
+                {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+         </div>
+        
+        
+<div class="tab-content" id ='en' style="display:none;">
 
-<div class="tab-content">
     {% for item in exercise_list %}
+    
     <div class="tab-pane {% if forloop.first %}active{% endif %}" id="tab-{{ item.grouper.id }}">
         <div class="list-group">
+           
         {% for exercise in item.list|dictsort:"name" %}
+        {% if exercise.language_id == 2 %}
+       
             <a href="{{ exercise.get_absolute_url }}" class="list-group-item">
                 <div class="visible-xs">
+                        
                     <span class="glyphicon glyphicon-chevron-right pull-right"></span>
                 </div>
                 <div class="media">
@@ -74,29 +150,95 @@ $(document).ready(function() {
                          src="{% static 'images/icons/image-placeholder.svg' %}">
                     {% endif %}
                     </div>
-                    <div class="media-body" style="position: absolute; top: 10px; left: 100px;">
-                        <h4 class="media-heading">{{ exercise.name }}</h4>
-                        <span class="text-muted">
-                            {% for equipment in exercise.equipment.all %}
-                                {% trans equipment.name %}
-                                {% if not forloop.last %},{% endif %}
-                            {% endfor %}
-                        </span>
+                   
+                        <div class="media-body" style="position: absolute; top: 10px; left: 100px;" >
+                            <h4 class="media-heading">{{ exercise.name }}</h4>
+                           
+                        
+                            <span class="text-muted">
+                                {% for equipment in exercise.equipment.all %}
+                                    {% trans equipment.name %}
+                                    {% if not forloop.last %},{% endif %}
+                                {% endfor %}
+                            </span>
+                     
                      </div>
                 </div>
             </a>
+         {%endif%}
         {% empty %}
             <a href="#" class="list-group-item">
                 <div class="col-md-offset-1 col-md-10" >
                     {% trans "No exercises in this category. Add or edit an exercise and set its category" %}
                 </div>
             </a>
+            
         {% endfor %}
         </div>
     </div>
     {% endfor %}
-</div>
-{% endcache %}
+ </div>
+ <div class="tab-content" id ='de' style="display:none">
+        
+            {% for item in exercise_list %}
+            
+            <div class="tab-pane {% if forloop.first %}active{% endif %}" id="tab-{{ item.grouper.id }}">
+                <div class="list-group">
+                   
+                {% for exercise in item.list|dictsort:"name" %}
+                {% if exercise.language_id == 1 %}
+               
+                    <a href="{{ exercise.get_absolute_url }}" class="list-group-item">
+                        <div class="visible-xs">
+                                
+                            <span class="glyphicon glyphicon-chevron-right pull-right"></span>
+                        </div>
+                        <div class="media">
+                            <div style="width:60px;height:60px;" class="media-left">
+        
+                            {% if exercise.main_image %}
+                                <img alt="{{ exercise.name }}"
+                                 class="media-object "
+                                 style="max-width:100%; max-height:100%;"
+                                 src="{{ exercise.main_image.image|thumbnail_url:'thumbnail' }}">
+                            {% else %}
+                            <img alt="{% trans 'Placeholder image for exercise' %}"
+                                 class="media-object "
+                                 style="max-width:100%; max-height:100%; opacity: 0.4;"
+                                 src="{% static 'images/icons/image-placeholder.svg' %}">
+                            {% endif %}
+                            </div>
+                           
+                                <div class="media-body" style="position: absolute; top: 10px; left: 100px;" >
+                                    <h4 class="media-heading">{{ exercise.name }}</h4>
+                                   
+                                
+                                    <span class="text-muted">
+                                        {% for equipment in exercise.equipment.all %}
+                                            {% trans equipment.name %}
+                                            {% if not forloop.last %},{% endif %}
+                                        {% endfor %}
+                                    </span>
+                             
+                             </div>
+                        </div>
+                    </a>
+                 {%endif%}
+                {% empty %}
+                    <a href="#" class="list-group-item">
+                        <div class="col-md-offset-1 col-md-10" >
+                            {% trans "No exercises in this category. Add or edit an exercise and set its category" %}
+                        </div>
+                    </a>
+                    
+                {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+         </div>
+        
+
+ {% endcache %}
 
 
 {% endblock %}
@@ -112,8 +254,64 @@ $(document).ready(function() {
            id="exercise-search"
            class="ajax-form-element form-control"
            placeholder="{% trans 'exercise name' %}">
+<h4>{% trans "Choose exercises based on  the language." %}</h4>
+           <div class="btn-group"> 
+                <button type="button" class="btn btn-success btn-sm"   id ='choose-English'>
+                    <img src="/static/images/icons/flag-en.svg"
+                         width="18"
+                         height="11"
+                         alt="{% trans English %}"
+                         title="{% trans English %}"
+                         style="border: 1px solid #151515;">
+                         
+                    English 
+                    
+                </button>
+                <div class="btn-group"> 
+                        <button type="button" class="btn btn-success btn-sm"   id ='choose-Germany'>
+                            <img src="/static/images/icons/flag-de.svg"
+                                 width="18"
+                                 height="11"
+                                 alt="{% trans Germany %}"
+                                 title="{% trans Germany %}"
+                                 style="border: 1px solid #151515;">
+                                 
+                            Germany 
+                            
+                        </button>
+                        
+                                <button type="button" class="btn btn-success btn-sm"   id ='choose-Buglarian'>
+                                    <img src="/static/images/icons/flag-bg.svg"
+                                         width="18"
+                                         height="11"
+                                         alt="{% trans  Buglarian %}"
+                                         title="{% trans  Buglarian %}"
+                                         style="border: 1px solid #151515;">
+                                         
+                                    Buglarian
+                                    
+                                </button>
+                        
+                      
+                                <button type="button" class="btn btn-success btn-sm"   id ='choose-Spanish'>
+                                    <img src="/static/images/icons/flag-es.svg"
+                                         width="18"
+                                         height="11"
+                                         alt="{% trans  Spanish %}"
+                                         title="{% trans  Spanish %}"
+                                         style="border: 1px solid #151515;">
+                                         
+                                    Spanish
+                                    
+                                </button>
+                       
+                <!-- <ul class="dropdown-menu" role="menu">
+                    {% for language in languages %}
+                    {% language_select language %}
+                    {% endfor %}
+                </ul> -->
+             </div>
 {% endblock %}
-
 
 
 {% block options %}

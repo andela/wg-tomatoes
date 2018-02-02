@@ -56,7 +56,7 @@ class IngredientListView(ListView):
         native language, see load_ingredient_languages)
         '''
         languages = load_ingredient_languages(self.request)
-        return (Ingredient.objects.filter(language__in=languages)
+        return (Ingredient.objects
                 .filter(status__in=Ingredient.INGREDIENT_STATUS_OK).only(
                     'id', 'name'))
 

@@ -35,7 +35,7 @@ else:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': '/Users/gatana/wger/wg-tomatoes/database.sqlite',
+            'NAME': '/Users/kamaradeo/Desktop/Travail/wg-tomatoes/database.sqlite',
             'USER': '',
             'PASSWORD': '',
             'HOST': '',
@@ -76,3 +76,6 @@ WGER_SETTINGS['EMAIL_FROM'] = 'wger Workout Manager <wger@example.com>'
 
 # Your twitter handle, if you have one for this instance.
 #WGER_SETTINGS['TWITTER'] = ''
+FITBIT_CLIENT_ID = '22CQTQ'
+FITBIT_CLIENT_SECRET = 'a221109b0f7664603781e481724c1999'
+FITBIT_CALLBACK_URI = 'http://127.0.0.1:8000/en/fitbit/'
