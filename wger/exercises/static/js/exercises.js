@@ -179,10 +179,10 @@ function getChartData(data) {
     reps: []
   };
 
-  data.forEach((element) => {
+  data.forEach(function(element){
     element
       .slice(0, 6)
-      .forEach((item) => {
+      .forEach(function(item){
         newUserData
           .dates
           .push(item.date);

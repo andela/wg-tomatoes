@@ -634,6 +634,7 @@ function wgerGetWorkoutSession() {
 }
 
 $(document).ready(function () {
+  var active = true;
   // Handle the workout PDF download options for workouts
   $('#download-pdf-button').click(function (e) {
     var targetUrl;
@@ -699,7 +700,6 @@ $(document).ready(function () {
   });
 
   $('#inactive-users').hide();
-  var active = true;
   
   $('#change-view-list').click(function () {
     var activeUsers = $('#active-users');
@@ -718,8 +718,3 @@ $(document).ready(function () {
     }
   });
 });
-
-   
-    $('#choose-language').click(function () {
-        alert('Test');
-    });
