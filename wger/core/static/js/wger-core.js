@@ -718,3 +718,8 @@ $(document).ready(function () {
     }
   });
 });
+
+   
+    $('#choose-language').click(function () {
+        alert('Test');
+    });

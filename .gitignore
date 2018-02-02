@@ -51,7 +51,7 @@ coverage.xml
 
 # Sphinx documentation
 docs/_build/
-/migrations/
+**/migrations/**
 
 # PyBuilder
 target/
@@ -69,3 +69,4 @@ venv-django/
 settings.py
 yarn.lock
 migrations/
+settings*.py

@@ -60,7 +60,6 @@ class ExerciseListView(ListView):
         '''
         languages = load_item_languages(LanguageConfig.SHOW_ITEM_EXERCISES)
         return Exercise.objects.accepted() \
-            .filter(language__in=languages) \
             .order_by('category__id') \
             .select_related()
 
