@@ -92,3 +92,24 @@ function wgerDrawWeightLogChart(data, divId) {
     });
   }
 }
+
+
+
+// console.log('Test');
+// $('#choose language').click(function () {
+//   var german = $('#1');
+//   var inactiveUsers = $('#inactive-users');
+//   var german = true;
+
+//   if (german) {
+//     activeUsers.hide();
+//     inactiveUsers.show();
+//     $(this).text('View Active Members');
+//     active = false;
+//   } else {
+//     activeUsers.show();
+//     inactiveUsers.hide();
+//     active = true;
+//     $(this).text('View Inactive Members');
+//   }
+// });
