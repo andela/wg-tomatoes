@@ -23,7 +23,7 @@ from django.utils.translation import ugettext_lazy
 
 from django.views.generic import CreateView, UpdateView
 
-from wger.nutrition.models import NutritionPlan, Meal
+from wger.nutrition.models import NutritionPlan, Meal,MealItem
 from wger.utils.generic_views import WgerFormMixin
 
 logger = logging.getLogger(__name__)
@@ -40,7 +40,7 @@ class MealCreateView(WgerFormMixin, CreateView):
 
     model = Meal
     fields = '__all__'
-    title = ugettext_lazy('Add new meal')
+    title = ugettext_lazy('Add a new  meal')
     owner_object = {'pk': 'plan_pk', 'class': NutritionPlan}
 
     def form_valid(self, form):
@@ -71,7 +71,8 @@ class MealEditView(WgerFormMixin, UpdateView):
 
     model = Meal
     fields = '__all__'
-    title = ugettext_lazy('Edit meal')
+ 
+    title = ugettext_lazy('Edit the  meal')
     form_action_urlname = 'nutrition:meal:edit'
 
     def get_success_url(self):

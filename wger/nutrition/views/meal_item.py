@@ -106,12 +106,15 @@ class MealItemEditView(WgerFormMixin, UpdateView):
     title = ugettext_lazy('Edit meal item')
     form_action_urlname = 'nutrition:meal_item:edit'
     template_name = 'meal_item/edit.html'
-
+        
     def get_success_url(self):
+        
         return reverse(
             'nutrition:plan:view', kwargs={
                 'id': self.object.meal.plan.id
+                 
             })
+            
 
     def get_context_data(self, **kwargs):
         '''
