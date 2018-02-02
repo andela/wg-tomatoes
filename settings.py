@@ -35,7 +35,7 @@ else:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': '/Users/gatana/wger/wg-tomatoes/database.sqlite',
+            'NAME': './database.sqlite',
             'USER': '',
             'PASSWORD': '',
             'HOST': '',
