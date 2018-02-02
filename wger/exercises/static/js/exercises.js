@@ -177,13 +177,13 @@ function getSingleDataset(label, bgColor, borderColor, data, type) {
  * @param {string} divId Id of the html element to use when drawing the draph
  * @param {string} otherUser The username of the other user
  */
-function wgerDrawBarGraph(data, otherUserData, divId, otherUser) {
+function wgerDrawBarGraph(userData, otherUserData, divId, otherUser) {
   // get the element defined by this div
   var context = document.getElementById('svg-' + divId);
 
   // grab logged in user data
   var listOfChartData = [];
-  var chartData = getChartData(data);
+  var chartData = getChartData(userData);
   var otherUserBarGraphData;
   var otherChartData;
   listOfChartData.push(chartData);
@@ -199,11 +199,11 @@ function wgerDrawBarGraph(data, otherUserData, divId, otherUser) {
       labels: listOfChartData[0].dates.slice(0, 6),
       datasets: [
         getSingleDataset('My weights', '#76ff03', '#64dd17', listOfChartData, 'weight'),
-        getSingleDataset('My reps', '#b2ff59', '#76ff03', listOfChartData, "reps"),
-        getSingleDataset(otherUser + '\s weights', 
-                          '#ff9100', '#ff6d00', otherUserBarGraphData, 'weight'),
-        getSingleDataset(otherUser + '\s reps', 
-                          '#ffab40', '#ff9100', otherUserBarGraphData, 'reps')
+        getSingleDataset('My reps', '#b2ff59', '#76ff03', listOfChartData, 'reps'),
+        getSingleDataset(otherUser + '\'s weights',
+        '#ff9100', '#ff6d00', otherUserBarGraphData, 'weight'),
+        getSingleDataset(otherUser + '\'s reps',
+        '#ffab40', '#ff9100', otherUserBarGraphData, 'reps')
       ]
     };
 
@@ -217,7 +217,7 @@ function wgerDrawBarGraph(data, otherUserData, divId, otherUser) {
         .slice(0, 6),
       datasets: [
         getSingleDataset('My weights', '#76ff03', '#64dd17', listOfChartData, 'weight'),
-        getSingleDataset('My reps', "#b2ff59", '#76ff03', listOfChartData, 'reps')
+        getSingleDataset('My reps', '#b2ff59', '#76ff03', listOfChartData, 'reps')
       ]
     };
     // draw the bar graph
