@@ -186,6 +186,7 @@ function wgerDrawBarGraph(userData, otherUserData, divId, otherUser) {
   var chartData = getChartData(userData);
   var otherUserBarGraphData;
   var otherChartData;
+  var data;
   listOfChartData.push(chartData);
 
   // check if user data of the other user is included
