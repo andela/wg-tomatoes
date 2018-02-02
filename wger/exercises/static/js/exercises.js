@@ -143,7 +143,7 @@ function getChartData(data) {
           .reps
           .push(item.reps);
       });
-  })
+  });
 
   return newUserData;
 }
@@ -168,7 +168,7 @@ function getSingleDataset(label, bgColor, borderColor, data, type) {
       : data[0]
         .reps
         .slice(0, 6)
-  }
+  };
 }
 
 /**
@@ -178,10 +178,10 @@ function getSingleDataset(label, bgColor, borderColor, data, type) {
  * @param {string} otherUser The username of the other user
  */
 function wgerDrawBarGraph(data, otherUserData, divId, otherUser) {
-  //get the element defined by this div
+  // get the element defined by this div
   var context = document.getElementById('svg-' + divId);
 
-  //grab logged in user data
+  // grab logged in user data
   var listOfChartData = [];
   var chartData = getChartData(data);
   var otherUserBarGraphData;
@@ -194,33 +194,33 @@ function wgerDrawBarGraph(data, otherUserData, divId, otherUser) {
     otherChartData = getChartData(otherUserData);
     otherUserBarGraphData.push(otherChartData);
 
-    //generate data for both users to draw the bar graph
+    // generate data for both users to draw the bar graph
     data = {
-      labels: listOfChartData[0]
-        .dates
-        .slice(0, 6),
+      labels: listOfChartData[0].dates.slice(0, 6),
       datasets: [
-        getSingleDataset("My weights", '#76ff03', '#64dd17', listOfChartData, "weight"),
-        getSingleDataset("My reps", '#b2ff59', '#76ff03', listOfChartData, "reps"),
-        getSingleDataset(otherUser + "'s weights", '#ff9100', '#ff6d00', otherUserBarGraphData, "weight"),
-        getSingleDataset(otherUser + "'s reps", '#ffab40', '#ff9100', otherUserBarGraphData, "reps")
+        getSingleDataset('My weights', '#76ff03', '#64dd17', listOfChartData, 'weight'),
+        getSingleDataset('My reps', '#b2ff59', '#76ff03', listOfChartData, "reps"),
+        getSingleDataset(otherUser + '\s weights', 
+                          '#ff9100', '#ff6d00', otherUserBarGraphData, 'weight'),
+        getSingleDataset(otherUser + '\s reps', 
+                          '#ffab40', '#ff9100', otherUserBarGraphData, 'reps')
       ]
     };
 
-    //draw the bar graph
+    // draw the bar graph
     drawBarGraph(context, data);
   } else {
-    //get userdata to draw the bar graph
+    // get userdata to draw the bar graph
     data = {
       labels: listOfChartData[0]
         .dates
         .slice(0, 6),
       datasets: [
-        getSingleDataset("My weights", '#76ff03', '#64dd17', listOfChartData, 'weight'),
-        getSingleDataset("My reps", "#b2ff59", "#76ff03", listOfChartData, "reps")
+        getSingleDataset('My weights', '#76ff03', '#64dd17', listOfChartData, 'weight'),
+        getSingleDataset('My reps', "#b2ff59", '#76ff03', listOfChartData, 'reps')
       ]
-    }
-    //draw the bar graph
+    };
+    // draw the bar graph
     drawBarGraph(context, data);
   }
 }
