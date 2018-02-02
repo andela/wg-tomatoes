@@ -142,6 +142,8 @@ class NutritionPlan(models.Model):
             },
         }
 
+        
+
         # Energy
         for meal in self.meal_set.select_related():
             values = meal.get_nutritional_values(use_metric=use_metric)
@@ -169,6 +171,8 @@ class NutritionPlan(models.Model):
                 result[key][i] = Decimal(result[key][i]).quantize(TWOPLACES)
 
         return result
+    
+
 
     def get_closest_weight_entry(self):
         '''
@@ -187,7 +191,8 @@ class NutritionPlan(models.Model):
             return closest_entry_gte
         else:
             return closest_entry_lte
-
+    
+    
     def get_owner_object(self):
         '''
         Returns the object that has owner information
@@ -218,6 +223,7 @@ class NutritionPlan(models.Model):
         # even more
         else:
             return 4
+
 
     @property
     def nutritional_info(self):
@@ -591,7 +597,7 @@ class Meal(models.Model):
         Returns the object that has owner information
         '''
         return self.plan
-
+  
     def get_nutritional_values(self, use_metric=True):
         '''
         Sums the nutrional info of all items in the meal
@@ -624,6 +630,9 @@ class Meal(models.Model):
         return nutritional_info
 
 
+
+
+
 @python_2_unicode_compatible
 class MealItem(models.Model):
     '''
@@ -644,8 +653,8 @@ class MealItem(models.Model):
     Meal_Consumed = 'CM'
 
     MealChoice =(
-        (Meal_Planned, 'Meal Planned'),
-        (Meal_Consumed, 'Consumed Meal'),
+        (Meal_Planned, 'planned'),
+        (Meal_Consumed, 'consumed '),
     )
 
     meal_choice = models.CharField(
@@ -653,7 +662,7 @@ class MealItem(models.Model):
         choices = MealChoice,
         default = Meal_Planned
     )
-    #planned_meal= models.BooleanField(default=False, editable=False)
+    
     order = models.IntegerField(
         verbose_name=_('Order'), blank=True, editable=False)
     amount = models.DecimalField(
@@ -752,3 +761,10 @@ class MealItem(models.Model):
                 nutritional_info[i]).quantize(TWOPLACES)
 
         return nutritional_info
+    def get_type(self):
+        '''
+        Return meal type, consumed or planned.
+        '''
+        return self.type
+
+    
