@@ -699,10 +699,11 @@ $(document).ready(function () {
   });
 
   $('#inactive-users').hide();
+  var active = true;
+  
   $('#change-view-list').click(function () {
     var activeUsers = $('#active-users');
     var inactiveUsers = $('#inactive-users');
-    var active = true;
 
     if (active) {
       activeUsers.hide();
@@ -715,14 +716,5 @@ $(document).ready(function () {
       active = true;
       $(this).text('View Inactive Members');
     }
-    /* if ($('#inactive-users').attr('style') == 'display: none;'){
-         $('#active-users').hide();
-         $('#inactive-users').show();
-       }
-       if($('#active-users').attr('style') == 'display: none;'){
-         $('#active-users').show();
-         $('#inactive-users').hide();
-       }
-    */
   });
 });
