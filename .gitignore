@@ -66,4 +66,7 @@ node_modules
 venv-django/
 /.vscode/
 .DS_Store
+settings.py
+yarn.lock
+migrations/
 settings*.py

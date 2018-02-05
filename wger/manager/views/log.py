@@ -36,6 +36,8 @@ from wger.manager.forms import (HelperDateForm, HelperWorkoutSessionForm,
 from wger.utils.generic_views import (WgerFormMixin, WgerDeleteMixin)
 from wger.utils.helpers import check_access
 from wger.weight.helpers import process_log_entries, group_log_entries
+from wger.manager.models import User
+from wger.core.models import UserProfile
 
 logger = logging.getLogger(__name__)
 
@@ -238,12 +240,21 @@ class WorkoutLogDetailView(DetailView, LoginRequiredMixin):
     owner_user = None
 
     def get_context_data(self, **kwargs):
+        other_logs = None # to hold logs of the other user
+        other_chart_data = 'null' # to hold chat data of another user
+
+        try:
+            # get other user object by the supplied username
+            other_username = self.request.GET.get('search_user')
+            other_user = User.objects.get(username=other_username)
+        except:
+            other_user = None
 
         # Call the base implementation first to get a context
         context = super(WorkoutLogDetailView, self).get_context_data(**kwargs)
         is_owner = self.owner_user == self.request.user
 
-        # Prepare the entries for rendering and the D3 chart
+        # Prepare the entries for rendering and the D3 or Chart.js chart
         workout_log = {}
 
         for day_list in self.object.canonical_representation['day_list']:
@@ -255,35 +266,49 @@ class WorkoutLogDetailView(DetailView, LoginRequiredMixin):
                     exercise_id = exercise_list['obj'].id
                     exercise_log[exercise_id] = []
 
-                    # Filter the logs for user and exclude all units that are not weight
-                    #
-                    # TODO: add the repetition_unit to the filter. For some reason (bug
-                    #       in django? DB problems?) when adding the filter there, the
-                    #       execution time explodes. The weight unit filter works as
-                    #       expected. Also, adding the unit IDs to the exclude list
-                    #       also has the disadvantage that if new ones are added in a
-                    #       local instance, they could "slip" through.
-                    logs = exercise_list['obj'].workoutlog_set.filter(user=self.owner_user,
-                                                                      weight_unit__in=(1, 2),
-                                                                      workout=self.object) \
+                    # get current user logs
+                    logs = exercise_list['obj'].workoutlog_set.filter(
+                        user=self.owner_user, weight_unit__in=(1, 2),
+                        workout=self.object)\
                         .exclude(repetition_unit_id__in=(2, 3, 4, 5, 6, 7, 8))
+
+                    # get other user logs and generate chart data 
+                    if other_user:
+                        other_logs = exercise_list['obj'].workoutlog_set.filter(
+                            user=other_user,
+                            weight_unit__in=(1, 2),
+                            exercise=exercise_list['obj']).exclude(repetition_unit_id__in=(2, 3, 4, 5, 6, 7, 8))
+
+                    if other_logs:
+                        entry_log, other_chart_data = process_log_entries(other_logs)
+                    else:
+                        other_chart_data = 'null'
+
                     entry_log, chart_data = process_log_entries(logs)
                     if entry_log:
                         exercise_log[exercise_list['obj'].id].append(entry_log)
 
                     if exercise_log:
                         workout_log[day_id][exercise_id] = {}
-                        workout_log[day_id][exercise_id][
-                            'log_by_date'] = entry_log
-                        workout_log[day_id][exercise_id][
-                            'div_uuid'] = 'div-' + str(uuid.uuid4())
-                        workout_log[day_id][exercise_id][
-                            'chart_data'] = chart_data
+                        workout_log[day_id][exercise_id]['log_by_date'] = entry_log
+                        workout_log[day_id][exercise_id]['div_uuid'] = 'div-' + str(uuid.uuid4())
+                        workout_log[day_id][exercise_id]['chart_data'] = chart_data
+                        workout_log[day_id][exercise_id]['other_chart_data'] = other_chart_data
 
         context['workout_log'] = workout_log
         context['owner_user'] = self.owner_user
         context['is_owner'] = is_owner
         context['show_shariff'] = is_owner
+
+        # get users with public profiles
+        users = UserProfile.objects.filter(ro_access=True)
+        context['user_profiles'] = users
+
+        # check if there is a user selected
+        if not other_username:
+            other_username = 'null'
+
+        context['other_user'] = other_username
 
         return context
 
