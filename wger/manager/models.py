@@ -845,7 +845,8 @@ class WorkoutLog(models.Model):
     kept for compatibility reasons (specially for the REST API).
     '''
     # add a foreign key for workout session
-    workout_session = models.ForeignKey(WorkoutSession, verbose_name=_('workout session'), editable=False, blank=True)
+    workout_session = models.ForeignKey(WorkoutSession, verbose_name=_('workout session'), editable=False, null=True,
+                                        blank=True)
 
     weight = models.DecimalField(
         decimal_places=2,
