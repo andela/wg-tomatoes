@@ -17,21 +17,24 @@
 import logging
 import uuid
 import datetime
+import json
 
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponseRedirect, HttpResponseForbidden
+from django.http import HttpResponseRedirect, HttpResponseForbidden, HttpResponse
 from django.template.context_processors import csrf
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.utils.translation import ugettext_lazy, ugettext as _
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core import serializers
 from django.views.generic import DeleteView, UpdateView
 
 from wger.core.models import (RepetitionUnit, WeightUnit)
 from wger.manager.models import (Workout, WorkoutSession, WorkoutLog, Schedule,
                                  Day)
 from wger.manager.forms import (WorkoutForm, WorkoutSessionHiddenFieldsForm,
-                                WorkoutCopyForm)
+                                WorkoutCopyForm, WorkoutExportForm)
 from wger.utils.generic_views import (WgerFormMixin, WgerDeleteMixin)
 from wger.utils.helpers import make_token
 
@@ -108,6 +111,52 @@ def view(request, pk):
     template_data['show_shariff'] = is_owner
 
     return render(request, 'workout/view.html', template_data)
+
+
+@login_required
+def export_workout(request, pk):
+    '''
+    Exports workout
+    '''
+    workout = get_object_or_404(Workout, pk=pk)
+    user = workout.user
+    is_owner = request.user == user
+
+    if not is_owner and not user.userprofile.ro_access:
+        return HttpResponseForbidden()
+
+    # process export request
+    if request.method == 'POST':
+        # pass data to form
+        workout_export_form = WorkoutExportForm(request.POST)
+        if workout_export_form.is_valid():
+            export_name = workout_export_form.cleaned_data['name']
+            # set default name if name is empty
+            if export_name == "":
+                export_name = 'workout_export'
+            data = serializers.serialize('json', Workout.objects.filter(pk=pk))
+            response = HttpResponse(data, content_type='application/force-download')
+            response['Content-Disposition'] = 'attachment; filename="{}.json"'.format(export_name)
+            messages.success(request, _('workout export was successful'))
+            return response
+
+    else:
+        workout_export_form = WorkoutExportForm({'name': ''})
+
+        template_data = {}
+        template_data.update(csrf(request))
+        template_data['title'] = _('Export workout')
+        template_data['form'] = workout_export_form
+        template_data['form_action'] = reverse(
+            'manager:workout:export', kwargs={
+                'pk': workout.id
+            })
+        template_data['form_fields'] = [workout_export_form['name']]
+        template_data['submit_text'] = _('Export')
+        template_data[
+            'extend_template'] = 'base_empty.html' if request.is_ajax() else 'base.html'
+
+        return render(request, 'export.html', template_data)
 
 
 @login_required
