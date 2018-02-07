@@ -1,0 +1,46 @@
+{% extends extend_template %}
+{% load i18n staticfiles wger_extras django_bootstrap_breadcrumbs %}
+
+{#             #}
+{# Breadcrumbs #}
+{#             #}
+{% block breadcrumbs %}
+    {{ block.super }}
+
+    {% breadcrumb "Exporting and importing workouts enables you & friends to share custom workouts." workout.pk%}
+{% endblock %}
+
+{% block header %}
+
+{{ form.media }}
+
+{% if custom_js %}
+<script type="text/javascript">
+    {{custom_js|safe}}
+</script>
+{% endif %}
+{% endblock %}
+
+
+{% block title %}{{title}}{% endblock %}
+
+
+{% block content %}
+
+<form action="{{form_action}}"
+      method="post"
+      class="form-horizontal"
+      role="form"
+      {% if enctype %}enctype="{{enctype}}"{% endif %}>
+    {% render_form_fields form submit_text %}
+</form>
+
+{% endblock %}
+
+
+
+<!--
+        Side bar
+-->
+{% block sidebar %}{% if sidebar %}{% include sidebar %}
+{% endif %}{% endblock %}
