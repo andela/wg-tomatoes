@@ -33,4 +33,15 @@
 <a href="{% url 'manager:workout:add' %}" class="btn btn-success btn-sm">
     {% trans "Add workout" %}
 </a>
+
+{% if workouts %}
+<a href="{% url 'manager:workout:export_all' %}" class="btn btn-info btn-sm">
+    <i class="glyphicon glyphicon-export"></i>
+    {% trans "Export workout(s)" %}
+</a>
+{% endif %}
+<a href="{% url 'manager:workout:add' %}" class="btn btn-warning btn-sm">
+    <i class="glyphicon glyphicon-import"></i>
+    {% trans "Import workout" %}
+</a>
 {% endblock %}
