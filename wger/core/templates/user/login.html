@@ -14,10 +14,28 @@
     {% trans 'Login' as submit_text %}
     {% render_form_fields form submit_text %}
 </form>
+
+
+
 {% endblock %}
 
 
 {% block sidebar %}
+<h4>{% trans "Login in with your social account" %}</h4>
+<p>
+    <a href="{% url 'social:begin' 'google-oauth2' %}" class="btn btn-block btn-default">
+        <span class="{% fa_class 'google' %}"></span>
+        Google
+    </a>
+    <a href="{% url 'social:begin' 'twitter' %}" class="btn btn-block btn-default">
+         <span class="{% fa_class 'twitter' %}"></span>
+         Twitter
+     </a>
+    <a href="{% url 'social:begin' 'facebook' %}" class="btn btn-block btn-default">
+        <span class="{% fa_class 'facebook' %}"></span>
+        Facebook
+    </a>
+ </p>
 <h4>{% trans "No account?" %}</h4>
 <p>
     <a href="{% url 'core:user:registration' %}" class="btn btn-block btn-default">

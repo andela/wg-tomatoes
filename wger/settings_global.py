@@ -42,6 +42,8 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'social_django',
+
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
 
@@ -123,12 +125,22 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.locale.LocaleMiddleware',
 
+    #Added social authenication middleware class
+    'social_django.middleware.SocialAuthExceptionMiddleware',
+
     # Django mobile
     'django_mobile.middleware.MobileDetectionMiddleware',
     'django_mobile.middleware.SetFlavourMiddleware',
 )
 
 AUTHENTICATION_BACKENDS = ('django.contrib.auth.backends.ModelBackend',
+                           'social_core.backends.google.GoogleOAuth2',
+                            'social_core.backends.google.GoogleOAuth',
+                            'social_core.backends.twitter.TwitterOAuth',
+                            'social_core.backends.facebook.FacebookOAuth2',
+                            
+
+
                            'wger.utils.helpers.EmailAuthBackend')
 
 TEMPLATES = [
@@ -147,6 +159,9 @@ TEMPLATES = [
                 'django.template.context_processors.static',
                 'django.template.context_processors.tz',
                 'django.contrib.messages.context_processors.messages',
+                #social authenication
+                'social_django.context_processors.backends',  
+                'social_django.context_processors.login_redirect', 
 
                 # Django mobile
                 'django_mobile.context_processors.flavour',
@@ -381,3 +396,16 @@ WGER_SETTINGS = {
     'EMAIL_FROM': 'wger Workout Manager <wger@example.com>',
     'TWITTER': False
 }
+
+SOCIAL_AUTH_TWITTER_KEY = 'U8zvFLAB7zFPJ8vRSMWXaUahv'
+SOCIAL_AUTH_TWITTER_SECRET = 'YY1pfLVrHqaQTBN1jsuRY7YJ61drhSMMkEz5Wn6yyRMqwYyNmX'
+
+SOCIAL_AUTH_FACEBOOK_KEY = '152959578834958'  # App ID
+SOCIAL_AUTH_FACEBOOK_SECRET = '01c4265d41aa6768324e067205f51fbb'  # App Secret
+
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY ='884393838528-i0vjh65djcqvqufole0se68e9mpnn5g8.apps.googleusercontent.com'  #Paste CLient Key
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'nz_sPtHc6GYJsfD82S1CqJJ_' #Paste Secret Key
+
+
+
