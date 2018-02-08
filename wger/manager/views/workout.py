@@ -17,7 +17,6 @@
 import logging
 import uuid
 import datetime
-import json
 
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect, HttpResponseForbidden, HttpResponse
@@ -151,6 +150,48 @@ def export_workout(request, pk):
             'manager:workout:export', kwargs={
                 'pk': workout.id
             })
+        template_data['form_fields'] = [workout_export_form['name']]
+        template_data['submit_text'] = _('Export')
+        template_data[
+            'extend_template'] = 'base_empty.html' if request.is_ajax() else 'base.html'
+
+        return render(request, 'export.html', template_data)
+
+
+@login_required
+def export_all_workouts(request):
+    '''
+    Export all workouts
+    '''
+    is_owner = request.user
+
+    if not is_owner:
+        return HttpResponseForbidden()
+
+    # process export request
+    if request.method == 'POST':
+        # pass data to form
+        workout_export_form = WorkoutExportForm(request.POST)
+        if workout_export_form.is_valid():
+            export_name = workout_export_form.cleaned_data['name']
+            # set default name if name is empty
+            if export_name == "":
+                export_name = 'workout_export'
+            data = serializers.serialize('json', Workout.objects.filter(user=request.user))
+            response = HttpResponse(data, content_type='application/force-download')
+            response['Content-Disposition'] = 'attachment; filename="{}.json"'.format(export_name)
+            messages.success(request, _('workout(s) export was successful'))
+            return response
+
+    else:
+        workout_export_form = WorkoutExportForm({'name': ''})
+
+        template_data = {}
+        template_data.update(csrf(request))
+        template_data['title'] = _('Export workout')
+        template_data['form'] = workout_export_form
+        template_data['form_action'] = reverse(
+            'manager:workout:export_all')
         template_data['form_fields'] = [workout_export_form['name']]
         template_data['submit_text'] = _('Export')
         template_data[
