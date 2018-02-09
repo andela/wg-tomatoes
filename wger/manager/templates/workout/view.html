@@ -239,6 +239,12 @@ an appointment for each training day with the appropriate exercises.{% endblockt
             </a>
         </li>
         {% endif %}
+         <li>
+            <a href="{% url 'manager:workout:export' workout.id %}">
+               <span class="{% fa_class 'upload' %}"></span>
+               {% trans "Export workout" %}
+            </a>
+        </li>
         <li>
             <a data-toggle="modal" data-target="#export-ical-popup">
                <span class="{% fa_class 'calendar' %}"></span>
