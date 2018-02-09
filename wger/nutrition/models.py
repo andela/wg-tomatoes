@@ -20,7 +20,8 @@ from decimal import Decimal
 from django.db import models
 
 from django.template.loader import render_to_string
-from django.template.defaultfilters import slugify  # django.utils.text.slugify in django 1.5!
+# django.utils.text.slugify in django 1.5!
+from django.template.defaultfilters import slugify
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.core.exceptions import ValidationError
 from django.core.urlresolvers import reverse
@@ -154,7 +155,8 @@ class NutritionPlan(models.Model):
         if energy:
             for key in result['percent'].keys():
                 result['percent'][key] = \
-                    result['total'][key] * ENERGY_FACTOR[key][unit] / energy * 100
+                    result['total'][key] * \
+                    ENERGY_FACTOR[key][unit] / energy * 100
 
         # Per body weight
         weight_entry = self.get_closest_weight_entry()
@@ -630,6 +632,26 @@ class MealItem(models.Model):
     An item (component) of a meal
     '''
 
+    Meal_Planned = 'PM'
+    Meal_Consumed = 'CM'
+    MealChoice = (
+        (Meal_Planned, 'planned'),
+        (Meal_Consumed, 'consumed '),
+    )
+    amount = models.DecimalField(
+        decimal_places=2,
+        max_digits=6,
+        verbose_name=_('Amount'),
+        validators=[MinValueValidator(1),
+                    MaxValueValidator(1000)])
+    meal_choice = models.CharField(
+        max_length=2,
+        choices=MealChoice,
+        blank=False,
+        default=Meal_Planned,
+    )
+    order = models.IntegerField(
+        verbose_name=_('Order'), blank=True, editable=False)
     meal = models.ForeignKey(
         Meal, verbose_name=_('Nutrition plan'), editable=False)
     ingredient = models.ForeignKey(Ingredient, verbose_name=_('Ingredient'))
@@ -639,15 +661,6 @@ class MealItem(models.Model):
         null=True,
         blank=True,
     )
-
-    order = models.IntegerField(
-        verbose_name=_('Order'), blank=True, editable=False)
-    amount = models.DecimalField(
-        decimal_places=2,
-        max_digits=6,
-        verbose_name=_('Amount'),
-        validators=[MinValueValidator(1),
-                    MaxValueValidator(1000)])
 
     def __str__(self):
         '''
@@ -738,3 +751,9 @@ class MealItem(models.Model):
                 nutritional_info[i]).quantize(TWOPLACES)
 
         return nutritional_info
+
+    def get_type(self):
+        '''
+        Return meal type, consumed or planned.
+        '''
+        return self.type

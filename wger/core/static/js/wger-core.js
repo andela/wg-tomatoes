@@ -634,6 +634,7 @@ function wgerGetWorkoutSession() {
 }
 
 $(document).ready(function () {
+  var active = true;
   // Handle the workout PDF download options for workouts
   $('#download-pdf-button').click(function (e) {
     var targetUrl;
@@ -702,7 +703,6 @@ $(document).ready(function () {
   $('#change-view-list').click(function () {
     var activeUsers = $('#active-users');
     var inactiveUsers = $('#inactive-users');
-    var active = true;
 
     if (active) {
       activeUsers.hide();
@@ -715,19 +715,5 @@ $(document).ready(function () {
       active = true;
       $(this).text('View Inactive Members');
     }
-    /* if ($('#inactive-users').attr('style') == 'display: none;'){
-         $('#active-users').hide();
-         $('#inactive-users').show();
-       }
-       if($('#active-users').attr('style') == 'display: none;'){
-         $('#active-users').show();
-         $('#inactive-users').hide();
-       }
-    */
   });
 });
-
-   
-    $('#choose-language').click(function () {
-        alert('Test');
-    });
