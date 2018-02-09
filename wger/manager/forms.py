@@ -22,7 +22,7 @@ from captcha.fields import ReCaptchaField
 from django.utils.translation import ugettext as _
 from django.forms import (Form, MultipleHiddenInput, ModelForm, DateField,
                           IntegerField, DecimalField, CharField, widgets,
-                          ModelChoiceField)
+                          ModelChoiceField, FileField)
 
 from wger.core.models import (RepetitionUnit, WeightUnit)
 from wger.exercises.models import (Exercise, ExerciseCategory)
@@ -51,8 +51,15 @@ class WorkoutForm(ModelForm):
 class WorkoutExportForm(Form):
     name = CharField(
         max_length=100,
-        help_text=_('Give a title to this workout export.'),
+        help_text=_('Provide a title to the workout you want to export.'),
         required=False)
+
+
+class ImportWorkoutForm(Form):
+    file = FileField(
+        help_text=_('Select workout file to import'),
+        required=True
+    )
 
 
 class WorkoutCopyForm(Form):
