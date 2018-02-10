@@ -33,6 +33,7 @@ MarkupSafe==1.0
 oauthlib==2.0.6
 pep8==1.7.1
 Pillow==5.0.0
+psycopg2==2.7.3.2
 Pygments==2.2.0
 python-dateutil==2.6.1
 python-mimeparse==1.6.0
