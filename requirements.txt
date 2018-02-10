@@ -22,6 +22,7 @@ djangorestframework==3.2.5
 docutils==0.14
 easy-thumbnails==2.5
 fitbit==0.3.0
+gunicorn==19.7.1
 html5lib==1.0.1
 httpie==0.9.9
 icalendar==4.0.0
