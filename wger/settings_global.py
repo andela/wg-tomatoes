@@ -91,17 +91,16 @@ INSTALLED_APPS = (
 
 # added list of external libraries to be installed by bower
 BOWER_INSTALLED_APPS = (
-    'jquery#2.1.x',
-    'bootstrap',
-    'd3',
-    'shariff',
-    'tinymce-dist',
-    'DataTables',
-    'components-font-awesome',
-    'tinymce',
-    'metrics-graphics',
-    'devbridge-autocomplete#1.2.x',
-    'sortablejs#1.4.x',
+    "bootstrap#^3.3.7",
+    "components-font-awesome#^4.7.0",
+    "d3#4",
+    "DataTables#^1.10.16",
+    "shariff#^2.1.1",
+    "sortablejs#1.4.x",
+    "tinymce-dist#^4.7.4",
+    "jquery#2.1.x",
+    "metrics-graphics#^2.12.0",
+    "devbridge-autocomplete#1.2.x"
 )
 
 MIDDLEWARE_CLASSES = (
@@ -138,7 +137,7 @@ AUTHENTICATION_BACKENDS = ('django.contrib.auth.backends.ModelBackend',
                             'social_core.backends.google.GoogleOAuth',
                             'social_core.backends.twitter.TwitterOAuth',
                             'social_core.backends.facebook.FacebookOAuth2',
-                            
+
 
 
                            'wger.utils.helpers.EmailAuthBackend')
@@ -160,8 +159,8 @@ TEMPLATES = [
                 'django.template.context_processors.tz',
                 'django.contrib.messages.context_processors.messages',
                 #social authenication
-                'social_django.context_processors.backends',  
-                'social_django.context_processors.login_redirect', 
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
 
                 # Django mobile
                 'django_mobile.context_processors.flavour',
