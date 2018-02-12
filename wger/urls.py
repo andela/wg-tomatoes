@@ -227,6 +227,8 @@ urlpatterns += [
         name='ingredient-search'),
     url(r'^api/v2/', include(router.urls)),
     url(r'^api-token-auth/', obtain_auth_token),
+     #Url for the social authenication.
+    url(r'^oauth/', include('social_django.urls', namespace='social')),
    
 
 ]

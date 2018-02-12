@@ -22,6 +22,7 @@ djangorestframework==3.2.5
 docutils==0.14
 easy-thumbnails==2.5
 fitbit==0.3.0
+gunicorn==19.7.1
 html5lib==1.0.1
 httpie==0.9.9
 icalendar==4.0.0
@@ -33,6 +34,7 @@ MarkupSafe==1.0
 oauthlib==2.0.6
 pep8==1.7.1
 Pillow==5.0.0
+psycopg2==2.7.3.2
 Pygments==2.2.0
 python-dateutil==2.6.1
 python-mimeparse==1.6.0
@@ -44,6 +46,8 @@ requests-oauthlib==0.8.0
 rjsmin==1.0.12
 six==1.11.0
 snowballstemmer==1.2.1
+social-auth-app-django==2.1.0
+social-auth-core==1.6.0
 Sphinx==1.6.6
 sphinxcontrib-websupport==1.0.1
 sqlparse==0.2.4
