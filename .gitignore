@@ -67,5 +67,4 @@ venv-django/
 .DS_Store
 settings.py
 yarn.lock
-migrations/
 settings*.py
