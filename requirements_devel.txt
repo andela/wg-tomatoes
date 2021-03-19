@@ -26,7 +26,7 @@ icalendar==4.0.0
 idna==2.6
 imagesize==0.7.1
 invoke==0.22.0
-Jinja2==2.10
+Jinja2==2.11.3
 MarkupSafe==1.0
 mccabe==0.6.1
 pep8==1.7.1
