@@ -21,7 +21,7 @@ invoke
 requests
 
 # REST API
-djangorestframework>=3.2,<3.3
+djangorestframework>=3.2,<3.12
 django-filter
 django-tastypie
 django-cors-headers
